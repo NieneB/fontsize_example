@@ -1,11 +1,6 @@
 [meta title:'Crafty Map Example' description:'Crafty Map styling example' /]
 
-
-
-
-
 [var name:"fontSizeIncrease" value:1 /]
-
 
 [derived name:'mapstyle'  value: `{
     'version': 8,
@@ -631,7 +626,10 @@ const changeFontSize = function(factor) {
 
 [Float position:"right"]
 
-[CustomMap name:'testmap' mapStyle:mapstyle count:100 /]
+[CustomMap 
+    name:'testmap' 
+    mapStyle:mapstyle 
+    count:100 /]
 
 [/Float]
 
