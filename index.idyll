@@ -1,0 +1,638 @@
+[meta title:'Crafty Map Example' description:'Crafty Map styling example' /]
+
+
+
+
+
+[var name:"fontSizeIncrease" value:1 /]
+
+
+[derived name:'mapstyle'  value: `{
+    'version': 8,
+    'name': 'artisticPatterns',
+    'glyphs': 'https://ta.webmapper.nl/wm/glyphs/{fontstack}/{range}.pbf',
+    'sprite': 'https://tb.webmapper.nl/wm/sprites/pattern',
+    'sources': {
+        'wm_visdata': {
+            'type': 'vector',
+            'url': 'https://tb.webmapper.nl/wm/styles/tile.json'
+        }
+    },
+    'layers': [
+        {
+            'id': 'background',
+            'type': 'background',
+            'paint': {
+                'background-color': '#f2f2f2',
+                'background-pattern': 'paper'
+            }
+        },
+        
+        {
+            'id': 'water-shadow-inside',
+            'type': 'line',
+            'source': 'wm_visdata',
+            'source-layer': 'water',
+            'minzoom': 9,
+            'filter': [
+                '!in',
+                'type',
+                'tidal_flat'
+            ],
+            'layout': {
+                'line-cap': 'square',
+                'line-join': 'round',
+                'line-round-limit': 5
+            },
+            'paint': {
+                'line-color': '#000',
+                'line-width': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1.25
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    24
+                ],
+                'line-blur': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1.1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    12
+                ],
+                'line-translate': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1.25
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    [
+                        'literal',
+                        [
+                            0.5,
+                            0.5
+                        ]
+                    ],
+                    20,
+                    [
+                        'literal',
+                        [
+                            6,
+                            6
+                        ]
+                    ]
+                ],
+                'line-translate-anchor': 'viewport',
+                'line-opacity': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0.05,
+                    20,
+                    0.9
+                ]
+            }
+        },
+        {
+            'id': 'land-3',
+            'source': 'wm_visdata',
+            'source-layer': 'builtup',
+            'type': 'fill',
+            'paint': {
+                'fill-color': '#f2f2f2',
+                'fill-outline-color': '#f2f2f2',
+                'fill-opacity': 0.9
+            }
+        },
+        {
+            'id': 'water2',
+            'source': 'wm_visdata',
+            'source-layer': 'water',
+            'type': 'fill',
+            'filter': [
+                '!in',
+                'type',
+                'tidal_flat'
+            ],
+            'paint': {
+                'fill-pattern': 'dots-fill'
+            }
+        },
+        {
+            'id': 'land-1',
+            'source': 'wm_visdata',
+            'source-layer': 'natural',
+            'type': 'fill',
+            'paint': {
+                'fill-color': '#f2f2f2',
+                'fill-outline-color': '#f2f2f2'
+            }
+        },
+        {
+            'id': 'land-2',
+            'source': 'wm_visdata',
+            'source-layer': 'agricultural',
+            'type': 'fill',
+            'paint': {
+                'fill-color': '#f2f2f2',
+                'fill-outline-color': '#f2f2f2'
+            }
+        },
+        {
+            'id': 'agriculture',
+            'source': 'wm_visdata',
+            'source-layer': 'agricultural',
+            'type': 'fill',
+            'paint': {
+                'fill-pattern': 'agri'
+            }
+        },
+        {
+            'id': 'land-4',
+            'source': 'wm_visdata',
+            'source-layer': 'infrastructure',
+            'type': 'fill',
+            'paint': {
+                'fill-color': '#f2f2f2',
+                'fill-outline-color': '#f2f2f2'
+            }
+        },
+        {
+            'id': 'water',
+            'source': 'wm_visdata',
+            'source-layer': 'water',
+            'type': 'line',
+            'filter': [
+                '!in',
+                'type',
+                'tidal_flat'
+            ],
+            'layout': {
+                'line-cap': 'square',
+                'line-join': 'round',
+                'line-miter-limit': 1
+            },
+            'paint': {
+                'line-pattern': 'line-dots',
+                'line-width': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1.4
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    32
+                ],
+                'line-offset': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1.1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    -2
+                ]
+            }
+        },
+        {
+            'id': 'water-line-z0-z9',
+            'source': 'wm_visdata',
+            'source-layer': 'water',
+            'type': 'line',
+            'maxzoom':11,
+            'filter': [
+                '!in',
+                'type',
+                'tidal_flat'
+            ],
+            'layout': {
+                'line-cap': 'square',
+                'line-join': 'round',
+                'line-miter-limit': 1
+            },
+            'paint': {
+                'line-width': 0.1,
+                'line-color': '#535353'
+            }
+        },
+        {
+            'id': 'natural',
+            'source': 'wm_visdata',
+            'source-layer': 'natural',
+            'type': 'fill',
+            'layout': {
+                'visibility': 'none'
+            },
+            'paint': {
+                'fill-color': '#f2f2f2',
+                'fill-outline-color': '#f2f2f2'
+            }
+        },
+        {
+                'id': 'railways',
+                'source': 'wm_visdata',
+                'source-layer': 'railways',
+                'type': 'line',
+                'paint':{
+                    'line-color': '#535353',
+                    'line-width': 2,
+                    'line-opacity': 0.5,
+                    'line-dasharray': [2,3]
+                }
+        },
+        
+        {
+            'id': 'urban-area-line',
+            'source': 'wm_visdata',
+            'source-layer': 'builtup',
+            'type': 'line',
+            'maxzoom': 14.5,
+            'filter': [
+                'all',
+                [
+                    '==',
+                    'type',
+                    'area'
+                ]
+            ],
+            'layout': {
+                'line-cap': 'round',
+                'line-join': 'round'
+            },
+            'paint': {
+                'line-color': '#535353',
+                'line-width': 3.5,
+                'line-blur': 0.5
+            }
+        },
+        {
+            'id': 'urban-area-fill',
+            'source': 'wm_visdata',
+            'source-layer': 'builtup',
+            'type': 'fill',
+            'maxzoom': 14.5,
+            'filter': [
+                'all',
+                [
+                    '==',
+                    'type',
+                    'area'
+                ]
+            ],
+            'layout': {
+               
+            },
+            'paint': {
+                'fill-color': '#f2f2f2'
+            }
+        },
+        {
+            'id': 'urban-area',
+            'source': 'wm_visdata',
+            'source-layer': 'builtup',
+            'type': 'fill',
+            'maxzoom': 14.5,
+            'filter': [
+                'all',
+                [
+                    '==',
+                    'type',
+                    'area'
+                ]
+            ],
+            'layout': {
+               
+            },
+            'paint': {
+                'fill-opacity': ['interpolate', ['linear'], ['zoom'],
+                13.5, 1,
+                15.9, 0
+                ],
+                'fill-pattern': [
+                'step',['zoom'],
+                'house-fill-small',
+                10 , 'house-fill',
+                11  , 'house-fill-big'
+                
+            ]
+            }
+        },
+        {
+            'id': 'bos-lijn-shadow',
+            'source': 'wm_visdata',
+            'source-layer': 'natural',
+            'type': 'line',
+            'filter': [
+                '==',
+                'type',
+                'high'
+            ],
+            'layout': {
+                'line-cap': 'square',
+                'line-join': 'round',
+                'line-round-limit': 5
+            },
+            'paint': {
+                'line-color': '#000',
+                'line-width': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    10
+                ],
+                'line-blur': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0,
+                    20,
+                    5
+                ],
+                'line-translate': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    [
+                        'literal',
+                        [
+                            0.5,
+                            0.5
+                        ]
+                    ],
+                    20,
+                    [
+                        'literal',
+                        [
+                            1.5,
+                            1.5
+                        ]
+                    ]
+                ],
+                'line-translate-anchor': 'viewport',
+                'line-opacity': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        1
+                    ],
+                    [
+                        'zoom'
+                    ],
+                    9,
+                    0.05,
+                    20,
+                    0.9
+                ]
+            }
+        },
+        {
+            'id': 'roads',
+            'source': 'wm_visdata',
+            'source-layer': 'roads',
+            'type': 'line',
+            'paint': {
+                'line-color': '#ffffff',
+                'line-width': [
+                    'match',
+                    [
+                        'get',
+                        'type'
+                    ],
+                    'highway',
+                    8,
+                    'motorway',
+                    7,
+                    'local',
+                    4,
+                    5
+                ],
+                'line-opacity': 1,
+                'line-blur': 0.5
+            }
+        },
+        {
+            'id': 'roads2',
+            'source': 'wm_visdata',
+            'source-layer': 'roads',
+            'type': 'line',
+            'layout':{
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-pattern': 'line',
+                'line-width': [
+                    'match',
+                    [
+                        'get',
+                        'type'
+                    ],
+                    'highway',
+                    4,
+                     'motorway',
+                    3,
+                    'local',
+                    1,
+                    2
+                ]
+            }
+        },
+        {
+            'id': 'bos',
+            'source': 'wm_visdata',
+            'source-layer': 'natural',
+            'type': 'fill-extrusion',
+            'filter': [
+                '==',
+                'type',
+                'high'
+            ],
+            'paint': {
+                'fill-extrusion-pattern': 'forest2',
+                'fill-extrusion-height': 4
+            }
+        },
+        {
+            'id': 'building',
+            'source': 'wm_visdata',
+            'source-layer': 'builtup',
+            'type': 'symbol',
+            'minzoom': 13,
+            'filter': [
+                'all',
+                [
+                    '==',
+                    'type',
+                    'building'
+                ]
+            ],
+            'layout': {
+                'symbol-placement': 'line-center',
+                'symbol-spacing': 50,
+                'icon-image': 'house',
+                'icon-anchor': 'bottom',
+                'icon-rotation-alignment': 'viewport',
+                'icon-pitch-alignment': 'viewport',
+                'icon-allow-overlap': true,
+                'icon-padding': 10,
+                'icon-size': ['interpolate', ['linear'], ['zoom'],
+                13, 0.3,
+                15,1
+                ]
+            },
+            'paint': {
+                'icon-opacity': 1
+                
+            }
+        },
+         {
+            'id': 'place-labels',
+            'type': 'symbol',
+            'source': 'wm_visdata',
+            'source-layer': 'labels',
+            'filter': [
+                'all',
+                [
+                    '==',
+                    'type',
+                    'place'
+                ],
+                [
+                    '!=',
+                    'subtype',
+                    'urban_district'
+                ]
+            ],
+            'minzoom': 8,
+            'maxzoom': 16,
+            'layout': {
+                'text-allow-overlap': false,
+                'text-padding': 5,
+                'text-size': [
+                    'interpolate',
+                    [
+                        'exponential',
+                        0.9
+                    ],
+                    [
+                        'get',
+                        'hierarchy'
+                    ],
+                    1,
+                    46*fontSizeIncrease,
+                    6,
+                    23 *fontSizeIncrease,
+                    7,0
+                ],
+                'text-font': ['Giraffey'],
+                'text-field': ['upcase',['get','name']],
+                'text-rotation-alignment': 'viewport'
+            },
+            'paint': {
+                'text-halo-blur': 0.5,
+                'text-color':  '#000000',
+                'text-halo-width': 2,
+                'text-halo-color': '#fff'
+            }
+        }
+    ]
+}`/]
+
+
+[Float  position:"left" height:700 ]
+# Font size 
+
+JavaScript function for changing all the font sizes in the maps style:
+
+```js
+const changeFontSize = function(factor) {
+  //Get current style 
+  let stijl = map.getStyle();
+  // Check for all style layers if contains a text-size
+  stijl.layers.forEach(layer => {
+    if (layer.type === "symbol" && layer.layout["text-size"]) {
+      //multiply current text size with the factor
+      let currentsize = layer.layout["text-size"];
+      // text-size interpolation per zoom level
+      if (currentsize.length > 4) { 
+        for (let i = 4; i <= currentsize.length; i += 2) {
+          currentsize[i] = currentsize[i] * factor;
+        }
+        map.setLayoutProperty(layer.id, "text-size", currentsize);
+      } 
+        // one text-size given
+        else if (typeof currentsize === "number") {
+        map.setLayoutProperty(layer.id, "text-size", currentsize * factor);
+      } else {
+        //no other possibilities (yet)
+      }
+    }
+  });
+};
+
+```
+`changeFontSize(`[Dynamic min:0 max:5 step:0.2 value:fontSizeIncrease /]`); `
+
+[/Float]
+
+[Float position:"right"]
+
+[CustomMap name:'testmap' mapStyle:mapstyle count:100 /]
+
+[/Float]
+
+
